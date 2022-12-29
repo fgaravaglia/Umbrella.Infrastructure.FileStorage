@@ -6,7 +6,7 @@ namespace Umbrella.Infrastructure.FileStorage.GoogleCloudStorage
     /// <summary>
     /// Speciazation of <see cref="FileItem"/> for GCP context
     /// </summary>
-    public class GCPObjectItem : FileItem
+    public class GcpObjectItem : FileItem
     {
         /// <summary>
         /// Default Constr
@@ -14,7 +14,7 @@ namespace Umbrella.Infrastructure.FileStorage.GoogleCloudStorage
         /// <param name="file"></param>
         /// <param name="containerId"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public GCPObjectItem(Google.Apis.Storage.v1.Data.Object file, string containerId) : base()
+        public GcpObjectItem(Google.Apis.Storage.v1.Data.Object file, string containerId) : base()
         {
             if (file == null)
                 throw new ArgumentNullException(nameof(file));

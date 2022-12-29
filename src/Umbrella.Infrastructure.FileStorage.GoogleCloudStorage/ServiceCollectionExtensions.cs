@@ -26,7 +26,7 @@ namespace Umbrella.Infrastructure.FileStorage.GoogleCloudStorage
             {
                 factory.UseProvider("GCP", () =>
                 {
-                    return new GCPCloudStorage(bucketName);
+                    return new GcpCloudStorage(bucketName);
                 });
                 return factory;
             });

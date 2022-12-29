@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Umbrella.Infrastructure.FileStorage.ErrorManagement
@@ -7,7 +8,8 @@ namespace Umbrella.Infrastructure.FileStorage.ErrorManagement
     /// <summary>
     /// Exception raised by Storage components
     /// </summary>
-    public class FileStorageException : Exception
+    [Serializable]
+    public class FileStorageException : Exception, ISerializable
     {
         /// <summary>
         /// Storage resource that raised the error

@@ -13,7 +13,7 @@ namespace Umbrella.Infrastructure.FileStorage.GoogleCloudStorage
     /// <summary>
     /// Implementation of <see cref="IFileStorage"/> based on Google Cloud Storage
     /// </summary>
-    public class GCPCloudStorage : IFileStorage
+    public class GcpCloudStorage : IFileStorage
     {
         #region Fields
 
@@ -36,7 +36,7 @@ namespace Umbrella.Infrastructure.FileStorage.GoogleCloudStorage
         /// </summary>
         /// <param name="bucketName"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public GCPCloudStorage(string bucketName)
+        public GcpCloudStorage(string bucketName)
         {
             if (String.IsNullOrEmpty(bucketName))
                 throw new ArgumentNullException(nameof(bucketName));
@@ -44,7 +44,7 @@ namespace Umbrella.Infrastructure.FileStorage.GoogleCloudStorage
             this.BucketName = bucketName;
             this._Client = StorageClient.Create();
             if (this._Client == null)
-                throw new ArgumentNullException($"Creation Bucket Client Failed");
+                throw new ArgumentException($"Creation Bucket Client Failed", nameof(bucketName));
             this._Folders = new Dictionary<string, FileContainer>();
         }
         /// <summary>
@@ -63,7 +63,7 @@ namespace Umbrella.Infrastructure.FileStorage.GoogleCloudStorage
             var files = new List<FileItem>();
             foreach (var obj in objects)
             {
-                GCPObjectItem item = new GCPObjectItem(obj, bucket.Id);
+                GcpObjectItem item = new GcpObjectItem(obj, bucket.Id);
                 files.Add(item);
             }
             return files;
