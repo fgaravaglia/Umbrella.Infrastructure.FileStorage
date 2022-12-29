@@ -6,6 +6,9 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
+		<PackageId>Umbrella.Infrastructure.FileStorage</PackageId>
+		<Version>0.1.0.0</Version>
+		<VersionNumber>0.1.0.0</VersionNumber>
 		<Company>Innova Solutions</Company>
 		<Authors>FG</Authors>
 		<Description>Library to abstract file persistence from File System or cloud provider</Description>
