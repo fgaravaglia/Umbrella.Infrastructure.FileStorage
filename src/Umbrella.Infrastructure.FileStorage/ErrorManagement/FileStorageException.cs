@@ -9,7 +9,7 @@ namespace Umbrella.Infrastructure.FileStorage.ErrorManagement
     /// Exception raised by Storage components
     /// </summary>
     [Serializable]
-    public class FileStorageException : Exception, ISerializable
+    public class FileStorageException : Exception
     {
         /// <summary>
         /// Storage resource that raised the error
