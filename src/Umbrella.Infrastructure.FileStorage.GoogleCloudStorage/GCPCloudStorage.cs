@@ -101,7 +101,7 @@ namespace Umbrella.Infrastructure.FileStorage.GoogleCloudStorage
             if (String.IsNullOrEmpty(area))
                 throw new ArgumentNullException(nameof(area));
 
-            var finalPath = this.BucketName + "/" + area + "/Data";
+            var finalPath = $"{this.BucketName}/{area}/Data";
             return FormatPath(finalPath);
         }
         /// <summary>
@@ -111,8 +111,26 @@ namespace Umbrella.Infrastructure.FileStorage.GoogleCloudStorage
         /// <returns></returns>
         public string FormatPath(string path)
         {
+            if (String.IsNullOrEmpty(path))
+                return path;
+
             // assuming only Localhsot is not containerized environment
             return path.Replace("\\", "/");
+        }
+        /// <summary>
+        /// COmbines the path to build the real one
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="subpath"></param>
+        /// <returns></returns>
+        public string CombinePath(string path, string subpath)
+        {
+            if (String.IsNullOrEmpty(path))
+                throw new ArgumentNullException(nameof(path));
+            if (String.IsNullOrEmpty(subpath))
+                throw new ArgumentNullException(nameof(subpath));
+
+            return FormatPath("{path}/{subpath}");
         }
         #region Private Methods
 

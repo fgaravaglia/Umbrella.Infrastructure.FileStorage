@@ -121,6 +121,21 @@ namespace Umbrella.Infrastructure.FileStorage.Providers.FileSystem
             // assuming only Localhsot is not containerized environment
             return IsLocalhost() ? path : path.Replace("\\", "/");
         }
+        /// <summary>
+        /// COmbines the path to build the real one
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="subpath"></param>
+        /// <returns></returns>
+        public string CombinePath(string path, string subpath)
+        {
+            if (String.IsNullOrEmpty(path))
+                throw new ArgumentNullException(nameof(path));
+            if (String.IsNullOrEmpty(subpath))
+                throw new ArgumentNullException(nameof(subpath));
+
+            return FormatPath(Path.GetFullPath(Path.Combine(path, subpath)));
+        }
 
         #region Private Methods
 

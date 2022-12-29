@@ -41,5 +41,12 @@ namespace Umbrella.Infrastructure.FileStorage
         /// <param name="path"></param>
         /// <returns></returns>
         string FormatPath(string path);
+        /// <summary>
+        /// COmbines the path to build the real one
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="subpath"></param>
+        /// <returns></returns>
+        string CombinePath(string path, string subpath);
     }
 }
