@@ -91,7 +91,29 @@ namespace Umbrella.Infrastructure.FileStorage.GoogleCloudStorage
             AddDirectoryAndChildrenToIndex(bucket.ToFileContainer());
             this.IsScanPerformed = true;
         }
+        /// <summary>
+        /// gets the path of area if has sense; null otherwise
+        /// </summary>
+        /// <param name="area"></param>
+        /// <returns></returns>
+        public string GetAreaDataPath(string area)
+        {
+            if (String.IsNullOrEmpty(area))
+                throw new ArgumentNullException(nameof(area));
 
+            var finalPath = this.BucketName + "/" + area + "/Data";
+            return FormatPath(finalPath);
+        }
+        /// <summary>
+        /// FOrmats correctly the path, managing local or Containerized environment
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public string FormatPath(string path)
+        {
+            // assuming only Localhsot is not containerized environment
+            return path.Replace("\\", "/");
+        }
         #region Private Methods
 
         void AddDirectoryAndChildrenToIndex(FileContainer bucket)

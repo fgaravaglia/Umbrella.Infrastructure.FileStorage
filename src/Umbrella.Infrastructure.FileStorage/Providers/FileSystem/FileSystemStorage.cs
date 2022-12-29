@@ -98,9 +98,38 @@ namespace Umbrella.Infrastructure.FileStorage.Providers.FileSystem
             var directory = new DirectoryInfo(this.RootFolder);
             return directory.ToFileContainer();
         }
+        /// <summary>
+        /// gets the path of area if has sense; null otherwise
+        /// </summary>
+        /// <param name="area"></param>
+        /// <returns></returns>
+        public string GetAreaDataPath(string area)
+        {
+            if (String.IsNullOrEmpty(area))
+                throw new ArgumentNullException(nameof(area));
+
+            var finalPath = Path.Combine(this.RootFolder, area + "\\Data");
+            return FormatPath(finalPath);
+        }
+        /// <summary>
+        /// FOrmats correctly the path, managing local or Containerized environment
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public string FormatPath(string path)
+        {
+            // assuming only Localhsot is not containerized environment
+            return IsLocalhost() ? path : path.Replace("\\", "/");
+        }
 
         #region Private Methods
 
+        bool IsLocalhost()
+        {
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            return environment == "Localhost";
+        }
+        
         void AddDirectoryAndChildrenToIndex(DirectoryInfo directory)
         {
             // build container for this directory

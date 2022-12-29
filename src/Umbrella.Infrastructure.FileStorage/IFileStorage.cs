@@ -29,5 +29,17 @@ namespace Umbrella.Infrastructure.FileStorage
         /// <param name="containerId">id container</param>
         /// <returns></returns>
         IEnumerable<FileItem> GetFiles(string containerId);
+        /// <summary>
+        /// gets the path of area if has sense; null otherwise
+        /// </summary>
+        /// <param name="area"></param>
+        /// <returns></returns>
+        string GetAreaDataPath(string area);
+        /// <summary>
+        /// FOrmats correctly the path, managing local or Containerized environment
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        string FormatPath(string path);
     }
 }
