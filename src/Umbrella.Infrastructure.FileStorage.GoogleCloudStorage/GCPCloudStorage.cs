@@ -1,0 +1,122 @@
+﻿using Google.Apis.Storage.v1.Data;
+using Google.Cloud.Storage.V1;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.CompilerServices;
+using Umbrella.Infrastructure.FileStorage.ErrorManagement;
+
+[assembly: InternalsVisibleTo("Umbrella.Infrastructure.FileStorage.Tests")]
+
+namespace Umbrella.Infrastructure.FileStorage.GoogleCloudStorage
+{
+    /// <summary>
+    /// Implementation of <see cref="IFileStorage"/> based on Google Cloud Storage
+    /// </summary>
+    public class GCPCloudStorage : IFileStorage
+    {
+        #region Fields
+
+        readonly Dictionary<string, FileContainer> _Folders;
+        readonly StorageClient _Client;
+
+        #endregion
+
+        /// <summary>
+        /// flag to veerify that storage has been indexed
+        /// </summary>
+        public bool IsScanPerformed { get; private set; }
+        /// <summary>
+        /// name of bucket
+        /// </summary>
+        public string BucketName { get; private set; }
+
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
+        /// <param name="bucketName"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public GCPCloudStorage(string bucketName)
+        {
+            if (String.IsNullOrEmpty(bucketName))
+                throw new ArgumentNullException(nameof(bucketName));
+
+            this.BucketName = bucketName;
+            this._Client = StorageClient.Create();
+            if (this._Client == null)
+                throw new ArgumentNullException($"Creation Bucket Client Failed");
+            this._Folders = new Dictionary<string, FileContainer>();
+        }
+        /// <summary>
+        /// <inheritdoc cref="IFileStorage.GetFiles(string)"/>
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<FileItem> GetFiles(string containerId)
+        {
+            // get GCP object
+            Bucket bucket = this._Client.GetBucket(this.BucketName);
+            var objects = this._Client.ListObjects(this.BucketName, options: new ListObjectsOptions()
+            { 
+                PageSize = 10000
+            });
+
+            var files = new List<FileItem>();
+            foreach (var obj in objects)
+            {
+                GCPObjectItem item = new GCPObjectItem(obj, bucket.Id);
+                files.Add(item);
+            }
+            return files;
+        }
+        /// <summary>
+        /// <inheritdoc cref="IFileStorage.GetRootContainer"/>
+        /// </summary>
+        /// <returns></returns>
+        public FileContainer GetRootContainer()
+        {
+            // get GCP object
+            Bucket bucket = this._Client.GetBucket(this.BucketName);
+            return bucket.ToFileContainer();
+        }
+        /// <summary>
+        /// Scan the folder to build an index on available folders
+        /// </summary>
+        /// <exception cref="FileStorageException"></exception>
+        public void ScanStorageTree()
+        {
+            Bucket bucket = this._Client.GetBucket(this.BucketName);
+            if (bucket == null)
+                throw new FileStorageException("Unable to get bucket details", this.BucketName, true);
+            // get folders of root
+            AddDirectoryAndChildrenToIndex(bucket.ToFileContainer());
+            this.IsScanPerformed = true;
+        }
+
+        #region Private Methods
+
+        void AddDirectoryAndChildrenToIndex(FileContainer bucket)
+        {
+            // build container for this directory
+            var objects = this._Client.ListObjects(bucket.Name);
+            var children = new List<FileContainer>();
+            foreach (var obj in objects)
+            {
+                if (obj.Kind != "object")
+                {
+                    var child = new FileContainer();
+                    children.Add(child);
+                }
+
+            }
+            bucket.SetChildren(children);
+            this._Folders.Add(bucket.Id, bucket);
+            foreach (var child in children)
+            {
+                AddDirectoryAndChildrenToIndex(child);
+            }
+
+        }
+
+        #endregion
+    }
+}

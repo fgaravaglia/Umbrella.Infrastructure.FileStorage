@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Company>Innova Solutions</Company>
+		<Authors>FG</Authors>
+		<Description>Library to implement file storage on Google Cloud Provider based on Umbrella.Infrastructure.Firestore abstraction</Description>
+		<Copyright>FG 2022 - 2023</Copyright>
+		<PackageProjectUrl>https://github.com/fgaravaglia/Umbrella.Infrastructure.FileStorage</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/fgaravaglia/Umbrella.Infrastructure.FileStorage</RepositoryUrl>
+		<icon>umbrella_framework_icon.png</icon>
+		<PackageReleaseNotes>
+		</PackageReleaseNotes>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="..\..\README.md" Pack="true" PackagePath="" />
+		<None Include="..\..\LICENSE" Pack="true" PackagePath="" />
+		<None Include="..\..\images\umbrella_framework_icon.png" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Google.Cloud.Storage.V1" Version="4.1.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Umbrella.Infrastructure.FileStorage\Umbrella.Infrastructure.FileStorage.csproj" />
+	</ItemGroup>
+
+</Project>
