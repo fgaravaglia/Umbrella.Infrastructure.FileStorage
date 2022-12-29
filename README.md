@@ -44,7 +44,7 @@ services.UseFileStorageFromFileSystem(@"C:\Temp\MyFolder");
 or if you need to store data on Google Cloud Storage:
 
 ```c#
-services.UseFileStorageFromFileSystem(@"C:\Temp\MyFolder");
+services.UseFileStorageFromGoogle("my-bucket-name");
 ```
 
 than, once you inject this depedency to your component, use such snippets:
