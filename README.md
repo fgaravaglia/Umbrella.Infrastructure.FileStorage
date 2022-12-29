@@ -1,6 +1,8 @@
 # Repository Content
 Library to abstract file persistence from File System or cloud provider
 
+[![Build Status](https://garaproject.visualstudio.com/UmbrellaFramework/_apis/build/status/Umbrella.Infrastructure.FileStorage?branchName=main)](https://garaproject.visualstudio.com/UmbrellaFramework/_build/latest?definitionId=81&branchName=main)
+
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Umbrella.Infrastructure.FileStorage&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Umbrella.Infrastructure.FileStorage)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Umbrella.Infrastructure.FileStorage&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=Umbrella.Infrastructure.FileStorage)
