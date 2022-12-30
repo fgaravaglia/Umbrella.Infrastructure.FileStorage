@@ -76,6 +76,9 @@ namespace Umbrella.Infrastructure.FileStorage.Providers.FileSystem
             if (string.IsNullOrEmpty(containerId))
                 throw new ArgumentNullException(nameof(containerId));
 
+            if(!this.IsScanPerformed)
+                this.ScanStorageTree();
+
             // translate containerId into path
             var container = GetContainer(containerId);
             if(container == null)
